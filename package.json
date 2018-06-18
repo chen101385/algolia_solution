@@ -1,0 +1,54 @@
+{
+  "name": "Algolia_Solution",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Solutions Engineer Take Home Assignment",
+  "scripts": {
+    "start": "node server/index.js",
+    "build": "webpack -d --watch --mode development",
+    "build:pro": "webpack --mode production",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chen101385/algolia_solution.git"
+  },
+  "author": "Christopher Chen",
+  "license": "Unlicensed",
+  "bugs": {
+    "url": "https://github.com/chen101385/algolia_solution/issues"
+  },
+  "homepage": "https://github.com/chen101385/algolia_solution#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.42",
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "@babel/preset-react": "^7.0.0-beta.42",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^22.4.3",
+    "babel-loader": "^8.0.0-beta.2",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.1",
+    "file-loader": "^1.1.11",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^22.4.3",
+    "nodemon": "^1.17.2",
+    "regenerator-runtime": "^0.11.1",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0-beta.42",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "semantic-ui-react": "^0.79.0"
+  }
+}
