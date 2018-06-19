@@ -1,5 +1,5 @@
-const restaurants_info = require('../../../data/raw/restaurants_info.json'),
-    restaurants_list = require('../../../data/raw/restaurants_list.json');
+const restaurants_info = require('../../../data/restaurants_info.json');
+const restaurants_list = require('../../../data/restaurants_list.json');
 
 //sorting function for objectID in ascending order   
 const sort = arr => {

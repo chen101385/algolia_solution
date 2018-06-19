@@ -6,7 +6,7 @@ const { mergedData } = require('./fileMerge'),
 
     index.addObjects(mergedData, (err, content) => {
         if (err) console.log('error in adding objects :', err);
-        else console.log('objects were successfully added!');
+        else console.log('objects were successfully added!:', content);
     });
 
 
