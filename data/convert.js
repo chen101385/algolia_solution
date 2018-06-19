@@ -20,14 +20,13 @@ fs.appendFile('restaurants_info.json', `[`, err => {
     }
 })
 
-let sep = "";
-
 reader.on('line', (data) => {
     if (line === 0) {
         keys = data.split(';');
         line++;
     } else {
         const values = data.split(';');
+        const sep = ",\n";
         const info = keys.reduce((acc, key, index) => {
             acc[key] = values[index];
             return acc;
@@ -40,9 +39,6 @@ reader.on('line', (data) => {
             });
             line++;
         } else {
-            if (!sep) {
-                sep = ",\n";
-            }
             fs.appendFile('restaurants_info.json', `${sep}${JSON.stringify(info)}`, err => {
                 if (err) {
                     throw err;
