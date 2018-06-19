@@ -5,7 +5,7 @@ import ItemListEntry from '../ListingEntry/ListingEntry';
 const Listings = ({ items }) => (
   <div>
     {
-      items.map(item => <ItemListEntry item={item} key={item.id} />)
+      items.map(item => <ItemListEntry item={item} key={item.objectID} />)
     }
   </div>
 );
