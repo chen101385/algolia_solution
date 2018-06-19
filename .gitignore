@@ -12,9 +12,7 @@
 # API
 /API
 
-#data
-*.csv
-*.json
+# data
 
 # misc
 .DS_Store
