@@ -8,6 +8,20 @@ const reader = readline.createInterface({
 let line = 0;
 let keys;
 
+reader.on('open', () => fs.appendFile('restaurants_info.json', `[`, err => {
+    if (err) {
+        throw err;
+    }
+}));
+
+fs.appendFile('restaurants_info.json', `[`, err => {
+    if (err) {
+        throw err;
+    }
+})
+
+let sep = "";
+
 reader.on('line', (data) => {
     if (line === 0) {
         keys = data.split(';');
@@ -18,12 +32,28 @@ reader.on('line', (data) => {
             acc[key] = values[index];
             return acc;
         }, {});
-        fs.appendFile('restaurants_info.json', `${JSON.stringify(info)}\n`, (err) => {
-            if (err) {
-                throw err;
+        if (line === 1) {
+            fs.appendFile('restaurants_info.json', `${JSON.stringify(info)}`, err => {
+                if (err) {
+                    throw err;
+                }
+            });
+            line++;
+        } else {
+            if (!sep) {
+                sep = ",\n";
             }
-        });
+            fs.appendFile('restaurants_info.json', `${sep}${JSON.stringify(info)}`, err => {
+                if (err) {
+                    throw err;
+                }
+            });
+        }
     }
 });
 
-reader.on('error', (error) => console.log('this is the error message:', error))
+reader.on('close', () => fs.appendFile('restaurants_info.json', `]`, err => {
+    if (err) {
+        throw err;
+    }
+}));

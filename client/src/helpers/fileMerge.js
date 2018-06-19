@@ -16,7 +16,8 @@ const mergeJSON = (arr1, arr2) => {
     let result = [];
 
     arr1.forEach((item, index) => {
-        result.push(Object.assign({}, item, arr2[index]))
+        if (item.objectID === arr2[index].objectID.toString()) result.push(Object.assign({}, item, arr2[index]))
+        else console.log('JSON data is not properly aligned')
     });
 
     return result;
