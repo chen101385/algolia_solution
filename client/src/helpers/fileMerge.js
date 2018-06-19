@@ -1,5 +1,5 @@
-const restaurants_info = require('../../../data/raw/restaurants_info.json'),
-    restaurants_list = require('../../../data/raw/restaurants_list.json');
+const restaurants_info = require('../../../data/restaurants_info.json');
+const restaurants_list = require('../../../data/restaurants_list.json');
 
 //sorting function for objectID in ascending order   
 const sort = arr => {
@@ -16,7 +16,8 @@ const mergeJSON = (arr1, arr2) => {
     let result = [];
 
     arr1.forEach((item, index) => {
-        result.push(Object.assign({}, item, arr2[index]))
+        if (item.objectID === arr2[index].objectID.toString()) result.push(Object.assign({}, item, arr2[index]))
+        else console.log('JSON data is not properly aligned')
     });
 
     return result;

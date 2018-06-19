@@ -12,6 +12,10 @@
 # API
 /API
 
+#data
+
+/data
+
 # misc
 .DS_Store
 .env.local
