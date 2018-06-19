@@ -4,10 +4,7 @@
   "private": true,
   "description": "Solutions Engineer Take Home Assignment",
   "scripts": {
-    "start": "node server/index.js",
-    "build": "webpack -d --watch --mode development",
-    "build:pro": "webpack --mode production",
-    "test": "jest"
+    "nodemon": "nodemon server/index.js"
   },
   "repository": {
     "type": "git",
