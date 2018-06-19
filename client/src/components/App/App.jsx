@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Search from '../Search/Search';
 import getResponseStatus from '../../helpers/responseStatus';
+import { InstantSearch } from 'react-instantsearch/dom';
+import { SEARCH_KEY } from '../../../API/API_KEY';
 
 class App extends Component {
   constructor(props) {
@@ -40,7 +42,12 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Search handleSearch={this.handleSearch} />
+        <InstantSearch
+          appId="TGMMPVICOC"
+          apiKey={SEARCH_KEY}
+          indexName="restaurants"
+        >
+          </InstantSearch>
       </div>
     );
   }
