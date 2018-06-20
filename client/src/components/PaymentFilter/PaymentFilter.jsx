@@ -1,26 +1,47 @@
 import React from "react";
 import visa from "./images/visa.png";
 import amex from "./images/amex.png";
-import mastercard from "./images/mastercard.png";
+import masterCard from "./images/mastercard.png";
 import discover from "./images/discover.png";
 
-const PaymentFilter = props => (
+const PaymentFilter = ({ paymentFilter, resetFilter }) => (
   <div className="ratings">
     <ul className="payment">
       <li>
-        <img src={visa} alt="visa" />
+        <img 
+          src={visa} 
+          onClick={() => paymentFilter("Visa")} 
+          alt="visa" />
       </li>
       <li>
-        <img src={amex} alt="amex" />
+        <img 
+          src={amex} 
+          onClick={() => paymentFilter("AMEX")} 
+          alt="amex" />
       </li>
       <li>
-        <img src={mastercard} alt="mastercard" />
+        <img
+          src={masterCard}
+          onClick={() => paymentFilter("MasterCard")}
+          alt="mastercard"
+        />
       </li>
       <li>
-        <img src={discover} alt="discover" />
+        <img
+          src={discover}
+          onClick={() => paymentFilter("Discover")}
+          alt="discover"
+        />
       </li>
       <br />
-      <a href={`/#`} alt="reset">
+      <a
+        onClick={e => {
+          e.preventDefault();
+          resetFilter();
+        }}
+        alt="reset"
+        style={{ cursor: "pointer" }}
+      >
         reset filter
       </a>
     </ul>

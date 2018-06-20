@@ -28,23 +28,30 @@ class App extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.shiftResults = this.shiftResults.bind(this);
     this.categoryClick = this.categoryClick.bind(this);
+    this.ratingFilter = this.ratingFilter.bind(this);
+    this.paymentFilter = this.paymentFilter.bind(this);
+    this.resetFilter = this.resetFilter.bind(this);
   }
   componentWillMount() {
     this.loadFacetInfo();
     this.shiftResults();
   }
 
-  componentDidMount() {
-  }
-
   handleSearch(queryString) {
-    const helper = algoliasearchHelper(client, index);
+    const helper = algoliasearchHelper(client, index, {
+      hitsPerPage: 5000
+    });
 
-    console.log('handleSearch is running');
+    console.log("handleSearch is running");
 
     helper.setQuery(queryString).search();
 
     helper.on("result", content => {
+      
+      content.hits.sort((a, b) => {
+        return Number(b.stars_count) - Number(a.stars_count);
+      });
+
       this.setState({
         query: queryString,
         searchResults: content.hits,
@@ -57,7 +64,8 @@ class App extends Component {
 
   loadFacetInfo() {
     const helper = algoliasearchHelper(client, index, {
-      facets: ["food_type"]
+      facets: ["food_type"],
+      hitsPerPage: 100
     });
 
     helper.on("result", content => {
@@ -72,38 +80,69 @@ class App extends Component {
 
   categoryClick(category) {
     const helper = algoliasearchHelper(client, index, {
-      facets: ["food_type"]
+      facets: ["food_type"],
+      hitsPerPage: 5000
     });
 
     helper.on("result", content => {
-      console.log('this is categoryClick content:', content)
+      console.log("this is categoryClick content:", content);
+
+      //attempt to sort content.hits;
+      content.hits.sort((a, b) => {
+        return Number(b.stars_count) - Number(a.stars_count);
+      });
+
       this.setState({
         searchResults: content.hits,
         currentResults: content.hits.slice(0, 5),
         count: content.nbHits,
-        searchTime: content.processingTimeMS,
-      })
+        searchTime: content.processingTimeMS
+      });
     });
-
-    helper.setQuery(category).search();
-
+    helper.addFacetRefinement("food_type", category).search();
   }
 
   shiftResults() {
     //shift pointer by 5 to current results;
-    console.log('this is searchResults', this.state.searchResults);
     this.setState({
-      currentResults: this.state.searchResults.slice(0, this.state.shiftPointer),
+      currentResults: this.state.searchResults.slice(0, this.state.shiftPointer)
     });
     //increment shift pointer by 5;
     this.setState({
-      shiftPointer: this.state.shiftPointer + 5,
-    })
-
-    console.log('current results', this.state.currentResults)
+      shiftPointer: this.state.shiftPointer + 5
+    });
   }
 
-  // ratingClick() {}
+  //filter based on reviews;
+  ratingFilter(value) {
+    let searchResults = this.state.searchResults;
+    const filteredResults = searchResults.filter(hit => {
+      return Number(hit.stars_count) >= value;
+    });
+    this.setState({
+      searchResults: filteredResults,
+      currentResults: filteredResults.slice(0, 5),
+      count: filteredResults.length
+    });
+  }
+
+  //payment filter;
+  paymentFilter(type) {
+    let searchResults = this.state.searchResults;
+    const filteredResults = searchResults.filter(hit => {
+      return hit.payment_options.indexOf(type) !== -1;
+    });
+    this.setState({
+      searchResults: filteredResults,
+      currentResults: filteredResults.slice(0, 5),
+      count: filteredResults.length
+    });
+  }
+
+  resetFilter() {
+    this.loadFacetInfo();
+    this.handleSearch();
+  }
 
   render() {
     const { currentResults, categories, count, searchTime } = this.state;
@@ -119,8 +158,10 @@ class App extends Component {
           <div className="sidebar">
             <Sidebar
               categoryList={categoryList}
-              handleSearch={this.handleSearch}
               categoryClick={this.categoryClick}
+              ratingFilter={this.ratingFilter}
+              paymentFilter={this.paymentFilter}
+              resetFilter={this.resetFilter}
             />
           </div>
           <div className="listings">

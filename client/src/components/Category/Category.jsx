@@ -8,7 +8,6 @@ const Category = ({ category, categoryClick }) => (
 );
 
 Category.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
   categoryClick: PropTypes.func.isRequired,
   category: PropTypes.shape({
     name: PropTypes.string,

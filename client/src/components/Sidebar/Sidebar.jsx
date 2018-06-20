@@ -4,27 +4,29 @@ import CategoryFilter from "../CategoryFilter/CategoryFilter";
 import Ratings from "../Ratings/Ratings";
 import PaymentFilter from "../PaymentFilter/PaymentFilter";
 
-const Sidebar = ({ categoryList, handleSearch, categoryClick }) => (
+const Sidebar = ({ categoryList, categoryClick, ratingFilter, paymentFilter, resetFilter }) => (
   <div className="sidebar">
     <div className="categories">
       <h3 className="side-label">Cuisine/Food Type</h3>
-      <CategoryFilter categoryList={categoryList} categoryClick={categoryClick} />
+      <CategoryFilter categoryList={categoryList} categoryClick={categoryClick} resetFilter={resetFilter} />
     </div>
     <div>
-      <h3 className="side-label"> Ratings </h3>
-      <Ratings />
+      <h3 className="side-label"> Ratings (min)</h3>
+      <Ratings ratingFilter={ratingFilter} resetFilter={resetFilter} />
     </div>
     <div>
       <h3 className="side-label">Payment Options</h3>
-      <PaymentFilter />
+      <PaymentFilter paymentFilter={paymentFilter} resetFilter={resetFilter} />
     </div>
   </div>
 );
 
 Sidebar.propTypes = {
   categoryList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  handleSearch: PropTypes.func.isRequired,
   categoryClick: PropTypes.func.isRequired,
+  ratingFilter: PropTypes.func.isRequired,
+  paymentFilter: PropTypes.func.isRequired,
+  resetFilter: PropTypes.func.isRequired,
 };
 
 export default Sidebar;
