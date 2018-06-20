@@ -117,7 +117,31 @@ eval("\nvar content = __webpack_require__(/*! !../../../../node_modules/css-load
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.default = void 0;\n\nvar _react = _interopRequireWildcard(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\n\nvar _Search = _interopRequireDefault(__webpack_require__(/*! ../Search/Search */ \"./client/src/components/Search/Search.jsx\"));\n\nvar _Listings = _interopRequireDefault(__webpack_require__(/*! ../Listings/Listings */ \"./client/src/components/Listings/Listings.jsx\"));\n\nvar _Sidebar = _interopRequireDefault(__webpack_require__(/*! ../Sidebar/Sidebar */ \"./client/src/components/Sidebar/Sidebar.jsx\"));\n\n__webpack_require__(/*! ./App.css */ \"./client/src/components/App/App.css\");\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }\n\nfunction _typeof(obj) { if (typeof Symbol === \"function\" && typeof Symbol.iterator === \"symbol\") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === \"function\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; }; } return _typeof(obj); }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === \"object\" || typeof call === \"function\")) { return call; } return _assertThisInitialized(self); }\n\nfunction _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }\n\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function\"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }\n\nfunction _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }\n\nfunction _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return self; }\n\nvar _require = __webpack_require__(/*! ../../../../API/API_KEY */ \"./API/API_KEY.js\"),\n    SEARCH_KEY = _require.SEARCH_KEY;\n\nvar algoliasearch = __webpack_require__(/*! algoliasearch */ \"./node_modules/algoliasearch/src/browser/builds/algoliasearch.js\");\n\nvar algoliasearchHelper = __webpack_require__(/*! algoliasearch-helper */ \"./node_modules/algoliasearch-helper/index.js\");\n\nvar applicationID = \"TGMMPVICOC\";\nvar index = \"restaurants\";\nvar client = algoliasearch(applicationID, SEARCH_KEY);\n\nvar App =\n/*#__PURE__*/\nfunction (_Component) {\n  _inherits(App, _Component);\n\n  function App(props) {\n    var _this;\n\n    _classCallCheck(this, App);\n\n    _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));\n    _this.state = {\n      searchResults: [],\n      facetTypes: null\n    };\n    _this.handleSearch = _this.handleSearch.bind(_assertThisInitialized(_assertThisInitialized(_this)));\n    return _this;\n  }\n\n  _createClass(App, [{\n    key: \"handleSearch\",\n    value: function handleSearch(queryString) {\n      var _this2 = this;\n\n      var helper = algoliasearchHelper(client, index);\n      helper.setQuery(queryString).search();\n      helper.on(\"result\", function (content) {\n        _this2.setState({\n          searchResults: content.hits\n        });\n      });\n    }\n  }, {\n    key: \"loadFacets\",\n    value: function loadFacets() {\n      var _this3 = this;\n\n      var helper = algoliasearchHelper(client, index, {\n        facets: ['food_type']\n      });\n      helper.on(\"result\", function (content) {\n        console.log('facet values', content);\n\n        _this3.setState({\n          facetTypes: content.getFacetValues(\"food_type\", {\n            sortBy: [\"count:asc\"]\n          })\n        });\n\n        console.log('facetTypes:', _this3.state.facetTypes);\n      });\n      helper.search();\n    }\n  }, {\n    key: \"componentDidMount\",\n    value: function componentDidMount() {\n      this.loadFacets();\n    }\n  }, {\n    key: \"render\",\n    value: function render() {\n      var searchResults = this.state.searchResults;\n      return _react.default.createElement(\"div\", {\n        className: \"app\"\n      }, _react.default.createElement(\"div\", null, _react.default.createElement(_Search.default, {\n        handleSearch: this.handleSearch.bind(this)\n      })), _react.default.createElement(_Sidebar.default, null), _react.default.createElement(\"div\", {\n        className: \"listings\"\n      }, _react.default.createElement(_Listings.default, {\n        items: searchResults\n      })));\n    }\n  }]);\n\n  return App;\n}(_react.Component);\n\nvar _default = App;\nexports.default = _default;\n\n//# sourceURL=webpack:///./client/src/components/App/App.jsx?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.default = void 0;\n\nvar _react = _interopRequireWildcard(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\n\nvar _Search = _interopRequireDefault(__webpack_require__(/*! ../Search/Search */ \"./client/src/components/Search/Search.jsx\"));\n\nvar _Listings = _interopRequireDefault(__webpack_require__(/*! ../Listings/Listings */ \"./client/src/components/Listings/Listings.jsx\"));\n\nvar _Sidebar = _interopRequireDefault(__webpack_require__(/*! ../Sidebar/Sidebar */ \"./client/src/components/Sidebar/Sidebar.jsx\"));\n\n__webpack_require__(/*! ./App.css */ \"./client/src/components/App/App.css\");\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }\n\nfunction _typeof(obj) { if (typeof Symbol === \"function\" && typeof Symbol.iterator === \"symbol\") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === \"function\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; }; } return _typeof(obj); }\n\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nfunction _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === \"object\" || typeof call === \"function\")) { return call; } return _assertThisInitialized(self); }\n\nfunction _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }\n\nfunction _inherits(subClass, superClass) { if (typeof superClass !== \"function\" && superClass !== null) { throw new TypeError(\"Super expression must either be null or a function\"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }\n\nfunction _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }\n\nfunction _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\"); } return self; }\n\nvar _require = __webpack_require__(/*! ../../../../API/API_KEY */ \"./API/API_KEY.js\"),\n    SEARCH_KEY = _require.SEARCH_KEY;\n\nvar algoliasearch = __webpack_require__(/*! algoliasearch */ \"./node_modules/algoliasearch/src/browser/builds/algoliasearch.js\");\n\nvar algoliasearchHelper = __webpack_require__(/*! algoliasearch-helper */ \"./node_modules/algoliasearch-helper/index.js\");\n\nvar applicationID = \"TGMMPVICOC\";\nvar index = \"restaurants\";\nvar client = algoliasearch(applicationID, SEARCH_KEY);\n\nvar App =\n/*#__PURE__*/\nfunction (_Component) {\n  _inherits(App, _Component);\n\n  function App(props) {\n    var _this;\n\n    _classCallCheck(this, App);\n\n    _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));\n    _this.state = {\n      searchResults: [],\n      categories: []\n    };\n    _this.handleSearch = _this.handleSearch.bind(_assertThisInitialized(_assertThisInitialized(_this)));\n    return _this;\n  }\n\n  _createClass(App, [{\n    key: \"handleSearch\",\n    value: function handleSearch(queryString) {\n      var _this2 = this;\n\n      var helper = algoliasearchHelper(client, index);\n      helper.setQuery(queryString).search();\n      helper.on(\"result\", function (content) {\n        _this2.setState({\n          searchResults: content.hits\n        });\n      });\n    }\n  }, {\n    key: \"loadFacets\",\n    value: function loadFacets() {\n      var _this3 = this;\n\n      var helper = algoliasearchHelper(client, index, {\n        facets: ['food_type']\n      });\n      helper.on(\"result\", function (content) {\n        console.log('facet values', content);\n\n        _this3.setState({\n          categories: content.getFacetValues(\"food_type\", {\n            sortBy: [\"count:desc\"]\n          })\n        });\n\n        console.log('FACET TYPES:', _this3.state.categories);\n      });\n      helper.search();\n    }\n  }, {\n    key: \"componentDidMount\",\n    value: function componentDidMount() {\n      this.loadFacets();\n    }\n  }, {\n    key: \"render\",\n    value: function render() {\n      var _this$state = this.state,\n          searchResults = _this$state.searchResults,\n          categories = _this$state.categories;\n      var categoryList = categories.slice(0, 7);\n      return _react.default.createElement(\"div\", {\n        className: \"app\"\n      }, _react.default.createElement(\"div\", null, _react.default.createElement(_Search.default, {\n        handleSearch: this.handleSearch\n      })), _react.default.createElement(_Sidebar.default, {\n        categoryList: categoryList\n      }), _react.default.createElement(\"div\", {\n        className: \"listings\"\n      }, _react.default.createElement(_Listings.default, {\n        items: searchResults\n      })));\n    }\n  }]);\n\n  return App;\n}(_react.Component);\n\nvar _default = App;\nexports.default = _default;\n\n//# sourceURL=webpack:///./client/src/components/App/App.jsx?");
+
+/***/ }),
+
+/***/ "./client/src/components/Category/Category.jsx":
+/*!*****************************************************!*\
+  !*** ./client/src/components/Category/Category.jsx ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.default = void 0;\n\nvar _react = _interopRequireDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\n\nvar _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ \"./node_modules/prop-types/index.js\"));\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar Category = function Category(_ref) {\n  var category = _ref.category;\n  return _react.default.createElement(\"li\", null, category.name, \" - (\", category.count, \")\");\n};\n\nCategory.propTypes = {\n  category: _propTypes.default.shape({\n    name: _propTypes.default.string,\n    count: _propTypes.default.number,\n    isRefined: _propTypes.default.bool,\n    isExcluded: _propTypes.default.bool\n  })\n};\nvar _default = Category;\nexports.default = _default;\n\n//# sourceURL=webpack:///./client/src/components/Category/Category.jsx?");
+
+/***/ }),
+
+/***/ "./client/src/components/CategoryFilter/CategoryFilter.jsx":
+/*!*****************************************************************!*\
+  !*** ./client/src/components/CategoryFilter/CategoryFilter.jsx ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.default = void 0;\n\nvar _react = _interopRequireDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\n\nvar _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ \"./node_modules/prop-types/index.js\"));\n\nvar _Category = _interopRequireDefault(__webpack_require__(/*! ../Category/Category */ \"./client/src/components/Category/Category.jsx\"));\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar CategoryFilter = function CategoryFilter(_ref) {\n  var categoryList = _ref.categoryList;\n  return _react.default.createElement(\"div\", {\n    className: \"categories\"\n  }, _react.default.createElement(\"ul\", null, categoryList.map(function (category, index) {\n    return _react.default.createElement(_Category.default, {\n      category: category,\n      key: index\n    });\n  })));\n};\n\nCategoryFilter.propTypes = {\n  categoryList: _propTypes.default.arrayOf(_propTypes.default.object).isRequired\n};\nvar _default = CategoryFilter;\nexports.default = _default;\n\n//# sourceURL=webpack:///./client/src/components/CategoryFilter/CategoryFilter.jsx?");
 
 /***/ }),
 
@@ -145,6 +169,84 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n
 
 /***/ }),
 
+/***/ "./client/src/components/Ratings/Ratings.jsx":
+/*!***************************************************!*\
+  !*** ./client/src/components/Ratings/Ratings.jsx ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.default = void 0;\n\nvar _react = _interopRequireDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\n\nvar _ = _interopRequireDefault(__webpack_require__(/*! ./Stars/0.png */ \"./client/src/components/Ratings/Stars/0.png\"));\n\nvar _2 = _interopRequireDefault(__webpack_require__(/*! ./Stars/1.png */ \"./client/src/components/Ratings/Stars/1.png\"));\n\nvar _3 = _interopRequireDefault(__webpack_require__(/*! ./Stars/2.png */ \"./client/src/components/Ratings/Stars/2.png\"));\n\nvar _4 = _interopRequireDefault(__webpack_require__(/*! ./Stars/3.png */ \"./client/src/components/Ratings/Stars/3.png\"));\n\nvar _5 = _interopRequireDefault(__webpack_require__(/*! ./Stars/4.png */ \"./client/src/components/Ratings/Stars/4.png\"));\n\nvar _6 = _interopRequireDefault(__webpack_require__(/*! ./Stars/5.png */ \"./client/src/components/Ratings/Stars/5.png\"));\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar Ratings = function Ratings(props) {\n  return _react.default.createElement(\"div\", {\n    className: \"ratings\"\n  }, _react.default.createElement(\"img\", {\n    src: _.default,\n    alt: \"0 stars\"\n  }), _react.default.createElement(\"img\", {\n    src: _2.default,\n    alt: \"1 stars\"\n  }), _react.default.createElement(\"img\", {\n    src: _3.default,\n    alt: \"2 stars\"\n  }), _react.default.createElement(\"img\", {\n    src: _4.default,\n    alt: \"3 stars\"\n  }), _react.default.createElement(\"img\", {\n    src: _5.default,\n    alt: \"4 stars\"\n  }), _react.default.createElement(\"img\", {\n    src: _6.default,\n    alt: \"5 stars\"\n  }));\n};\n\nvar _default = Ratings;\nexports.default = _default;\n\n//# sourceURL=webpack:///./client/src/components/Ratings/Ratings.jsx?");
+
+/***/ }),
+
+/***/ "./client/src/components/Ratings/Stars/0.png":
+/*!***************************************************!*\
+  !*** ./client/src/components/Ratings/Stars/0.png ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = __webpack_require__.p + \"b34005377f48643e00efed202ae5cf52.png\";\n\n//# sourceURL=webpack:///./client/src/components/Ratings/Stars/0.png?");
+
+/***/ }),
+
+/***/ "./client/src/components/Ratings/Stars/1.png":
+/*!***************************************************!*\
+  !*** ./client/src/components/Ratings/Stars/1.png ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = __webpack_require__.p + \"bd3f3e70b7b9a9beff648879a0694892.png\";\n\n//# sourceURL=webpack:///./client/src/components/Ratings/Stars/1.png?");
+
+/***/ }),
+
+/***/ "./client/src/components/Ratings/Stars/2.png":
+/*!***************************************************!*\
+  !*** ./client/src/components/Ratings/Stars/2.png ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = __webpack_require__.p + \"618d86c3a31270f0eb4b66ef5fde080c.png\";\n\n//# sourceURL=webpack:///./client/src/components/Ratings/Stars/2.png?");
+
+/***/ }),
+
+/***/ "./client/src/components/Ratings/Stars/3.png":
+/*!***************************************************!*\
+  !*** ./client/src/components/Ratings/Stars/3.png ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = __webpack_require__.p + \"20678ffe31c5b85e91673aed88b73687.png\";\n\n//# sourceURL=webpack:///./client/src/components/Ratings/Stars/3.png?");
+
+/***/ }),
+
+/***/ "./client/src/components/Ratings/Stars/4.png":
+/*!***************************************************!*\
+  !*** ./client/src/components/Ratings/Stars/4.png ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = __webpack_require__.p + \"235b06c4ff6033a11d2b7a9c99aaae11.png\";\n\n//# sourceURL=webpack:///./client/src/components/Ratings/Stars/4.png?");
+
+/***/ }),
+
+/***/ "./client/src/components/Ratings/Stars/5.png":
+/*!***************************************************!*\
+  !*** ./client/src/components/Ratings/Stars/5.png ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = __webpack_require__.p + \"0446812ad0f556a0fe3a2f5c13de8ea0.png\";\n\n//# sourceURL=webpack:///./client/src/components/Ratings/Stars/5.png?");
+
+/***/ }),
+
 /***/ "./client/src/components/Search/Search.jsx":
 /*!*************************************************!*\
   !*** ./client/src/components/Search/Search.jsx ***!
@@ -165,7 +267,7 @@ eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.default = void 0;\n\nvar _react = _interopRequireDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar Sidebar = function Sidebar(props) {\n  return _react.default.createElement(\"div\", {\n    className: \"sidebar\"\n  }, _react.default.createElement(\"div\", {\n    className: \"cuisineList\"\n  }, \"categoryList\"), _react.default.createElement(\"div\", {\n    className: \"ratingList\"\n  }, \"ratingList\"), _react.default.createElement(\"div\", {\n    className: \"paymentOptions\"\n  }, \"paymentOptions\"));\n}; // Listings.propTypes = {\n//     items: PropTypes.arrayOf(PropTypes.object).isRequired,\n// };\n\n\nvar _default = Sidebar;\nexports.default = _default;\n\n//# sourceURL=webpack:///./client/src/components/Sidebar/Sidebar.jsx?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.default = void 0;\n\nvar _react = _interopRequireDefault(__webpack_require__(/*! react */ \"./node_modules/react/index.js\"));\n\nvar _CategoryFilter = _interopRequireDefault(__webpack_require__(/*! ../CategoryFilter/CategoryFilter */ \"./client/src/components/CategoryFilter/CategoryFilter.jsx\"));\n\nvar _Ratings = _interopRequireDefault(__webpack_require__(/*! ../Ratings/Ratings */ \"./client/src/components/Ratings/Ratings.jsx\"));\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar Sidebar = function Sidebar(props) {\n  return _react.default.createElement(\"div\", {\n    className: \"sidebar\"\n  }, _react.default.createElement(\"div\", {\n    className: \"cuisineList\"\n  }, _react.default.createElement(_CategoryFilter.default, {\n    categoryList: props.categoryList\n  })), _react.default.createElement(\"div\", {\n    className: \"ratingList\"\n  }, _react.default.createElement(_Ratings.default, null)), _react.default.createElement(\"div\", {\n    className: \"paymentOptions\"\n  }, \"paymentOptions\"));\n}; // Listings.propTypes = {\n//     items: PropTypes.arrayOf(PropTypes.object).isRequired,\n// };\n\n\nvar _default = Sidebar;\nexports.default = _default;\n\n//# sourceURL=webpack:///./client/src/components/Sidebar/Sidebar.jsx?");
 
 /***/ }),
 
@@ -4239,7 +4341,7 @@ eval("__webpack_require__(/*! ./modules/es6.symbol */ \"./node_modules/core-js/m
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".app {\\n    text-align: center;\\n}\\n\\n.listings {\\n    \\n}\\n\\n.sidebar {\\n    background-color: lightblue;\\n    position: fixed;\\n    top: 0;\\n    left: 0;\\n    bottom: 0;\\n    width: 200px;\\n}\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack:///./client/src/components/App/App.css?./node_modules/css-loader");
+eval("exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ \"./node_modules/css-loader/lib/css-base.js\")(false);\n// imports\n\n\n// module\nexports.push([module.i, \".app {\\n    text-align: center;\\n}\\n\\n.listings {\\n\\n}\\n\\n.ratings {\\n    text-align: left;\\n    padding-left: 20px;\\n}\\n\\n.sidebar {\\n    background-color: lightblue;\\n    position: fixed;\\n    top: 0;\\n    left: 0;\\n    bottom: 0;\\n    width: 250px;\\n}\\n\\nul {\\n    text-align: left;\\n    list-style-type: none;\\n}\", \"\"]);\n\n// exports\n\n\n//# sourceURL=webpack:///./client/src/components/App/App.css?./node_modules/css-loader");
 
 /***/ }),
 

@@ -17,7 +17,7 @@ class App extends Component {
     super(props);
     this.state = {
       searchResults: [],
-      facetTypes: null,
+      categories: [],
     };
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -42,8 +42,8 @@ class App extends Component {
     helper.on("result", content => {
       console.log('facet values', content);
       
-      this.setState({ facetTypes: content.getFacetValues("food_type", { sortBy: ["count:asc"] })})
-      console.log('facetTypes:', this.state.facetTypes);
+      this.setState({ categories: content.getFacetValues("food_type", { sortBy: ["count:desc"] })})
+      console.log('FACET TYPES:', this.state.categories)
     });
     helper.search();
   }
@@ -53,13 +53,14 @@ class App extends Component {
   }
 
   render() {
-    const { searchResults } = this.state;
+    const { searchResults, categories } = this.state;
+    const categoryList = categories.slice(0, 7);
     return (
       <div className="app">
         <div>
-          <Search handleSearch={this.handleSearch.bind(this)} />
+          <Search handleSearch={this.handleSearch} />
         </div>
-        <Sidebar />
+        <Sidebar categoryList={categoryList} />
         <div className="listings">
           <Listings items={searchResults} />
         </div>

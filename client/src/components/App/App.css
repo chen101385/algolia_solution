@@ -3,7 +3,12 @@
 }
 
 .listings {
-    
+
+}
+
+.ratings {
+    text-align: left;
+    padding-left: 20px;
 }
 
 .sidebar {
@@ -12,5 +17,10 @@
     top: 0;
     left: 0;
     bottom: 0;
-    width: 200px;
+    width: 250px;
+}
+
+ul {
+    text-align: left;
+    list-style-type: none;
 }

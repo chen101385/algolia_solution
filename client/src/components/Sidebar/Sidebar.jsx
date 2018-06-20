@@ -1,9 +1,13 @@
-import React from "react";
+import React from 'react';
+import CategoryFilter from '../CategoryFilter/CategoryFilter';
+import Ratings from '../Ratings/Ratings';
 
 const Sidebar = props => (
   <div className="sidebar">
-    <div className="cuisineList">categoryList</div>
-    <div className="ratingList">ratingList</div>
+    <div className="cuisineList">
+      <CategoryFilter categoryList={props.categoryList}/>
+    </div>
+    <div className="ratingList"><Ratings /></div>
     <div className="paymentOptions">paymentOptions</div>
   </div>
 );
