@@ -20,17 +20,19 @@
 }
 
 .listings {
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 .listing {
     display: flex;
     flex-direction: row;
-    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .listing-header {
     text-align: left;
+    position: relative;
+    padding-top: 30px;
 }
 
 .listing-image {
