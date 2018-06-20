@@ -21,7 +21,7 @@ class App extends Component {
       count: 0,
       searchTime: null,
       categories: [],
-      query: "",
+      query: '',
       shiftPointer: 5
     };
 
@@ -175,8 +175,10 @@ class App extends Component {
   }
 
   resetFilter() {
+    const { searchResults, query } = this.state;
+
     this.loadFacetInfo();
-    this.handleSearch();
+    if (searchResults.length) this.handleSearch(query);
   }
 
   render() {

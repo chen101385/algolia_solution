@@ -16,7 +16,7 @@ const CategoryFilter = ({ categoryList, categoryClick, resetFilter }) => (
       alt="reset"
       style={{ cursor: " pointer" }}
     >
-      reset filter
+      <i>reset filters</i>
     </a>
   </ul>
 );

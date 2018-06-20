@@ -8,16 +8,10 @@ const PaymentFilter = ({ paymentFilter, resetFilter }) => (
   <div className="ratings">
     <ul className="payment">
       <li>
-        <img 
-          src={visa} 
-          onClick={() => paymentFilter("Visa")} 
-          alt="visa" />
+        <img src={visa} onClick={() => paymentFilter("Visa")} alt="visa" />
       </li>
       <li>
-        <img 
-          src={amex} 
-          onClick={() => paymentFilter("AMEX")} 
-          alt="amex" />
+        <img src={amex} onClick={() => paymentFilter("AMEX")} alt="amex" />
       </li>
       <li>
         <img
@@ -42,7 +36,7 @@ const PaymentFilter = ({ paymentFilter, resetFilter }) => (
         alt="reset"
         style={{ cursor: "pointer" }}
       >
-        reset filter
+        <i>reset filters</i>
       </a>
     </ul>
   </div>
