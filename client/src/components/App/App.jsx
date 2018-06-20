@@ -30,26 +30,31 @@ class App extends Component {
 
     helper.on("result", content => {
       this.setState({ searchResults: content.hits });
+      console.log('this is content.hits[0]', content.hits[0])
     });
   }
 
-  loadFacets() {
+  loadFacetInfo() {
     const helper = algoliasearchHelper(client, index, {
       facets: ['food_type']
     });
 
-    
-    helper.on("result", content => {
-      console.log('facet values', content);
-      
+    helper.on("result", content => {   
       this.setState({ categories: content.getFacetValues("food_type", { sortBy: ["count:desc"] })})
-      console.log('FACET TYPES:', this.state.categories)
     });
     helper.search();
   }
 
+  categoryClick() {
+
+  }
+
+  ratingClick() {
+    
+  }
+
   componentDidMount() {
-    this.loadFacets();
+    this.loadFacetInfo();
   }
 
   render() {

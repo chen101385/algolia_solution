@@ -8,19 +8,35 @@
 
 .ratings {
     text-align: left;
-    padding-left: 20px;
+    padding-left: 40px;
+    padding-top: 20px;
 }
 
 .sidebar {
-    background-color: lightblue;
+    background-color: white;
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
-    width: 250px;
+    width: 280px;
+}
+
+.categories {
+    padding-top: 40px;
 }
 
 ul {
     text-align: left;
     list-style-type: none;
+}
+
+#category-label {
+    text-align: left;
+    padding-left: 20px;
+}
+
+#rating-label {
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 20px;
 }

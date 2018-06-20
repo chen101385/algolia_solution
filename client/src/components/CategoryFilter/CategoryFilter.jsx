@@ -4,6 +4,7 @@ import Category from '../Category/Category';
 
 const CategoryFilter = ({ categoryList }) => (
   <div className="categories">
+    <h3 id="category-label">Cuisine/Food Type</h3>
     <ul>
       {categoryList.map((category, index) => <Category category={category} key={index} />)}
     </ul>
