@@ -17,7 +17,9 @@ class App extends Component {
     super(props);
     this.state = {
       searchResults: [],
-      categories: [],
+      count: null,
+      searchTime: null,
+      categories: []
     };
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -29,45 +31,60 @@ class App extends Component {
     helper.setQuery(queryString).search();
 
     helper.on("result", content => {
-      this.setState({ searchResults: content.hits });
-      console.log('this is content.hits[0]', content.hits[0])
+      console.log(content);
+      this.setState({
+        searchResults: content.hits,
+        count: content.nbHits,
+        searchTime: content.processingTimeMS
+      });
     });
   }
 
   loadFacetInfo() {
     const helper = algoliasearchHelper(client, index, {
-      facets: ['food_type']
+      facets: ["food_type"]
     });
 
-    helper.on("result", content => {   
-      this.setState({ categories: content.getFacetValues("food_type", { sortBy: ["count:desc"] })})
+    helper.on("result", content => {
+      this.setState({
+        categories: content.getFacetValues("food_type", {
+          sortBy: ["count:desc"]
+        })
+      });
     });
     helper.search();
   }
 
-  categoryClick() {
+  // categoryClick() {}
 
-  }
+  // ratingClick() {}
 
-  ratingClick() {
-    
-  }
-
-  componentDidMount() {
+  componentWillMount() {
+    this.handleSearch();
     this.loadFacetInfo();
   }
 
   render() {
-    const { searchResults, categories } = this.state;
+    const { searchResults, categories, count, searchTime } = this.state;
     const categoryList = categories.slice(0, 7);
     return (
       <div className="app">
-        <div>
-          <Search handleSearch={this.handleSearch} />
+        <div className="header">
+          <div className="search">
+            <Search handleSearch={this.handleSearch} />
+          </div>
         </div>
-        <Sidebar categoryList={categoryList} />
-        <div className="listings">
-          <Listings items={searchResults} />
+        <div className="container">
+          <div className="sidebar">
+            <Sidebar categoryList={categoryList} />
+          </div>
+          <div className="listings">
+            <Listings
+              items={searchResults}
+              count={count}
+              searchTime={searchTime}
+            />
+          </div>
         </div>
       </div>
     );

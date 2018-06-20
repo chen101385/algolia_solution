@@ -1,22 +1,28 @@
 import React from "react";
+import PropTypes from "prop-types";
 import CategoryFilter from "../CategoryFilter/CategoryFilter";
 import Ratings from "../Ratings/Ratings";
+import PaymentFilter from "../PaymentFilter/PaymentFilter";
 
 const Sidebar = props => (
   <div className="sidebar">
-    <div className="cuisineList">
+    <div className="categories">
+      <h3 className="side-label">Cuisine/Food Type</h3>
       <CategoryFilter categoryList={props.categoryList} />
     </div>
     <div>
-      <h3 id="rating-label"> Ratings </h3>
+      <h3 className="side-label"> Ratings </h3>
       <Ratings />
     </div>
-    <div className="paymentOptions">paymentOptions</div>
+    <div>
+      <h3 className="side-label">Payment Options</h3>
+      <PaymentFilter />
+    </div>
   </div>
 );
 
-// Listings.propTypes = {
-//     items: PropTypes.arrayOf(PropTypes.object).isRequired,
-// };
+Sidebar.propTypes = {
+  categoryList: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 export default Sidebar;

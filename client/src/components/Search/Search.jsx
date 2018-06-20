@@ -27,16 +27,14 @@ export default class Search extends Component {
   render() {
     let { value } = this.state;
     return (
-      <div className="Search">
       <form>
         <input
           type="text"
-          placeholder="Search"
+          placeholder="Search for Restaurants by Name, Cuisine, Location"
           value={value}
           onChange={this.handleChange}
         />
       </form>
-      </div>
     );
   }
 }
