@@ -19,6 +19,10 @@ const PaymentFilter = props => (
       <li>
         <img src={discover} alt="discover" />
       </li>
+      <br />
+      <a href={`/#`} alt="reset">
+        reset filter
+      </a>
     </ul>
   </div>
 );

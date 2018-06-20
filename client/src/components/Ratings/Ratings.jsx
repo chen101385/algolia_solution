@@ -27,6 +27,12 @@ const Ratings = props => (
       <li>
         <img src={star5} alt="5 stars" />
       </li>
+      <li>
+        <br />
+        <a href={`/#`} alt="reset">
+          reset filter
+    </a>
+      </li>
     </ul>
   </div>
 );

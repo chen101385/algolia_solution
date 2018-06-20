@@ -60,13 +60,36 @@ class App extends Component {
   // ratingClick() {}
 
   componentWillMount() {
-    this.handleSearch();
     this.loadFacetInfo();
   }
 
   render() {
     const { searchResults, categories, count, searchTime } = this.state;
     const categoryList = categories.slice(0, 7);
+    //if any search results present
+    if (searchResults.length) {
+      return (
+        <div className="app">
+          <div className="header">
+            <div className="search">
+              <Search handleSearch={this.handleSearch} />
+            </div>
+          </div>
+          <div className="container">
+            <div className="sidebar">
+              <Sidebar categoryList={categoryList} />
+            </div>
+            <div className="listings">
+              <Listings
+                items={searchResults}
+                count={count}
+                searchTime={searchTime}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="app">
         <div className="header">
@@ -79,11 +102,7 @@ class App extends Component {
             <Sidebar categoryList={categoryList} />
           </div>
           <div className="listings">
-            <Listings
-              items={searchResults}
-              count={count}
-              searchTime={searchTime}
-            />
+            <p id="empty">No Search Results</p>
           </div>
         </div>
       </div>

@@ -7,6 +7,10 @@ const CategoryFilter = ({ categoryList }) => (
     {categoryList.map((category, index) => (
       <Category category={category} key={index} />
     ))}
+    <br />
+    <a href={`/#`} alt="reset">
+      reset filter
+    </a>
   </ul>
 );
 
