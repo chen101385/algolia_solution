@@ -1,46 +1,68 @@
-import React, { Component } from 'react';
-import Search from '../Search/Search';
-import getResponseStatus from '../../helpers/responseStatus';
+import React, { Component } from "react";
+import Search from "../Search/Search";
+import Listings from "../Listings/Listings";
+import Sidebar from "../Sidebar/Sidebar";
+
+import "./App.css";
+
+const { SEARCH_KEY } = require("../../../../API/API_KEY");
+const algoliasearch = require("algoliasearch");
+const algoliasearchHelper = require("algoliasearch-helper");
+const applicationID = "TGMMPVICOC";
+const index = "restaurants";
+const client = algoliasearch(applicationID, SEARCH_KEY);
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchResults: [],
+      facetTypes: null,
     };
 
-    // this.handleSearch = this.handleSearch.bind(this);
-    // this.handlePost = this.handlePost.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
-  // async handleSearch(queryString) {
-  //   try {
-  //     let response = await fetch(`/FILL_ME_IN/${queryString}`);
-  //     let data = await response.json();
-  //     this.setState({ FILL_ME_IN: data });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+  handleSearch(queryString) {
+    const helper = algoliasearchHelper(client, index);
 
-  // async handlePost(FILL_ME_IN) {
-  //   try {
-  //     let response = await fetch('/FILL_ME_IN', {
-  //       method: 'post',
-  //       body: JSON.stringify(FILL_ME_IN),
-  //       headers: {
-  //         'Content-type': 'application/json',
-  //       },
-  //     });
-  //     await getResponseStatus(response);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
+    helper.setQuery(queryString).search();
+
+    helper.on("result", content => {
+      this.setState({ searchResults: content.hits });
+    });
+  }
+
+  loadFacets() {
+    const helper = algoliasearchHelper(client, index, {
+      facets: ['food_type']
+    });
+
+    
+    helper.on("result", content => {
+      console.log('facet values', content);
+      
+      this.setState({ facetTypes: content.getFacetValues("food_type", { sortBy: ["count:asc"] })})
+      console.log('facetTypes:', this.state.facetTypes);
+    });
+    helper.search();
+  }
+
+  componentDidMount() {
+    this.loadFacets();
+  }
 
   render() {
+    const { searchResults } = this.state;
     return (
-      <div>
-      <Search />
+      <div className="app">
+        <div>
+          <Search handleSearch={this.handleSearch.bind(this)} />
+        </div>
+        <Sidebar />
+        <div className="listings">
+          <Listings items={searchResults} />
+        </div>
       </div>
     );
   }

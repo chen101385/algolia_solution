@@ -22,8 +22,9 @@ module.exports = {
                 },
             },
             {
-                test: /\.less$/,
-                use: ['style-loader', 'css-loader', 'less-loader'],
+                test: /\.css$/,
+                exclude: /node_modules/,
+                use: ['style-loader', 'css-loader'],
             },
             { test: /\.png$/, use: 'file-loader' },
             { test: /\.jpg$/, use: 'file-loader' },
@@ -31,6 +32,6 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.jsx', '.css'],
     },
 };

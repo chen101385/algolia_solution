@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Listings from '../Listings/Listings';
 
 const { SEARCH_KEY } = require("../../../../API/API_KEY");
 const algoliasearch = require("algoliasearch");
@@ -15,7 +14,6 @@ export default class Search extends Component {
     super(props);
     this.state = {
       value: '',
-      searchResults: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -23,19 +21,11 @@ export default class Search extends Component {
 
   handleChange(e) {
     this.setState({ value: e.target.value });
-    this.search();
-  }
-
-  search() {
-    helper.setQuery(this.state.value).search();
-
-    helper.on("result", content => {
-      this.setState({ searchResults: content.hits });
-    });
+    this.props.handleSearch(this.state.value);
   }
 
   render() {
-    let { value, searchResults } = this.state;
+    let { value } = this.state;
     return (
       <div className="Search">
       <form>
@@ -46,14 +36,11 @@ export default class Search extends Component {
           onChange={this.handleChange}
         />
       </form>
-      <div className="Listings">
-        <Listings items={searchResults}/>
-        </div>
       </div>
     );
   }
 }
 
-// Search.propTypes = {
-//   handleSearch: PropTypes.func.isRequired,
-// };
+Search.propTypes = {
+  handleSearch: PropTypes.func.isRequired,
+};

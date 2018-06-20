@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ItemListEntry from '../ListingEntry/ListingEntry';
 
 const Listings = ({ items }) => (
-  <div>
+  <div className="listings">
     {
       items.map(item => <ItemListEntry item={item} key={item.objectID} />)
     }
