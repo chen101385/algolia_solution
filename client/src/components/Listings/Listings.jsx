@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ItemListEntry from "../ListingEntry/ListingEntry";
+import ShowMore from "../ShowMore/ShowMore";
 
-const Listings = ({ items, count, searchTime }) => {
+const Listings = ({ items, count, searchTime, shiftResults }) => {
   const milliseconds = (searchTime / 1000).toFixed(3);
   return (
     <div>
@@ -14,6 +15,10 @@ const Listings = ({ items, count, searchTime }) => {
         <div className="listing-entries">
           {items.map(item => <ItemListEntry item={item} key={item.objectID} />)}
         </div>
+        <ShowMore 
+          count={count}
+          shiftResults={shiftResults}
+         />
       </div>
     </div>
   );

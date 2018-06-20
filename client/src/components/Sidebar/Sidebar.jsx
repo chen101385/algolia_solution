@@ -4,11 +4,11 @@ import CategoryFilter from "../CategoryFilter/CategoryFilter";
 import Ratings from "../Ratings/Ratings";
 import PaymentFilter from "../PaymentFilter/PaymentFilter";
 
-const Sidebar = props => (
+const Sidebar = ({ categoryList, handleSearch, categoryClick }) => (
   <div className="sidebar">
     <div className="categories">
       <h3 className="side-label">Cuisine/Food Type</h3>
-      <CategoryFilter categoryList={props.categoryList} />
+      <CategoryFilter categoryList={categoryList} categoryClick={categoryClick} />
     </div>
     <div>
       <h3 className="side-label"> Ratings </h3>
@@ -22,7 +22,9 @@ const Sidebar = props => (
 );
 
 Sidebar.propTypes = {
-  categoryList: PropTypes.arrayOf(PropTypes.object).isRequired
+  categoryList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  categoryClick: PropTypes.func.isRequired,
 };
 
 export default Sidebar;

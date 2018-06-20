@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import Category from "../Category/Category";
 
-const CategoryFilter = ({ categoryList }) => (
+const CategoryFilter = ({ categoryList, categoryClick }) => (
   <ul>
     {categoryList.map((category, index) => (
-      <Category category={category} key={index} />
+      <Category category={category} categoryClick={categoryClick} key={index} />
     ))}
     <br />
     <a href={`/#`} alt="reset">
@@ -15,7 +15,8 @@ const CategoryFilter = ({ categoryList }) => (
 );
 
 CategoryFilter.propTypes = {
-  categoryList: PropTypes.arrayOf(PropTypes.object).isRequired
+  categoryList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categoryClick: PropTypes.func.isRequired,
 };
 
 export default CategoryFilter;
