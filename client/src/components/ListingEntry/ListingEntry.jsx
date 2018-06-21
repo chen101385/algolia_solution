@@ -61,7 +61,6 @@ const ListingEntry = ({ item }) => {
       <div className="listing-image">
         <img
           className="image"
-          width="120px"
           src={item.image_url}
           alt={item.name}
         />
@@ -87,7 +86,7 @@ ListingEntry.propTypes = {
       PropTypes.string,
       PropTypes.object,
       PropTypes.array,
-      PropTypes.number
+      PropTypes.number,
     ])
   ).isRequired
 };
