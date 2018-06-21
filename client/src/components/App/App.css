@@ -34,7 +34,6 @@
     padding-bottom: 20px;
 }
 
-
 .listing-header {
     text-align: left;
     position: relative;
@@ -42,11 +41,12 @@
 }
 
 .listing-header #result-count {
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .listing-header #result-time {
     font-size: 15px;
+    font-weight: 300;
 }
 
 .listing-info {
@@ -65,6 +65,7 @@
 }
 
 .ratings {
+    position: relative;
     text-align: left;
     padding-bottom: 10px;
     list-style-type: none;
@@ -72,15 +73,17 @@
 
 .sidebar {
     background-color: white;
-    position: relative;
+    border-right: 1px solid rgb(228, 223, 223);
     top: 0;
     left: 0;
     bottom: 0;
     width: 280px;
+    margin-right: 30px;
 }
 
 .categories {
     padding-top: 40px;
+    position: relative;
 }
 
 .image {
@@ -104,16 +107,30 @@ input {
 }
 
 .side-label {
+    position: relative;
     text-align: left;
     padding-left: 20px;
     padding-top: 20px;
 }
 
-.payment img {
-    padding-bottom: 15px;
+.payment-options {
+    position: relative;
+}
+
+.payment-options img {
+    padding-bottom: 10px;
 }
 
 .star-count {
     font-weight: bold;
     color: orange;
+}
+
+button#show-more {
+    padding: .75rem 3rem;
+    font-size: 18px;
+    font-weight: 300;
+    color: rgb(165, 164, 164);
+    border-radius: 3px;
+    background-color: white;
 }

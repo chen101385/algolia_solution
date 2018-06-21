@@ -7,7 +7,6 @@ import star4 from "./Stars/4.png";
 import star5 from "./Stars/5.png";
 
 const Ratings = ({ ratingFilter, resetFilter }) => (
-  <div className="ratings">
     <ul>
       <li>
         <img
@@ -67,11 +66,10 @@ const Ratings = ({ ratingFilter, resetFilter }) => (
           alt="reset"
           style={{ cursor: "pointer" }}
         >
-          reset filter
+          <i>reset filters</i>
         </a>
       </li>
     </ul>
-  </div>
 );
 
 export default Ratings;

@@ -5,8 +5,7 @@ import masterCard from "./images/mastercard.png";
 import discover from "./images/discover.png";
 
 const PaymentFilter = ({ paymentFilter, resetFilter }) => (
-  <div className="ratings">
-    <ul className="payment">
+    <ul>
       <li>
         <img src={visa} onClick={() => paymentFilter("Visa")} alt="visa" />
       </li>
@@ -39,7 +38,6 @@ const PaymentFilter = ({ paymentFilter, resetFilter }) => (
         <i>reset filters</i>
       </a>
     </ul>
-  </div>
 );
 
 export default PaymentFilter;

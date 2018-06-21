@@ -21,7 +21,8 @@ class App extends Component {
       count: 0,
       searchTime: null,
       categories: [],
-      query: '',
+      currentCategory: "",
+      query: "",
       shiftPointer: 5
     };
 
@@ -36,14 +37,10 @@ class App extends Component {
     this.loadFacetInfo();
   }
 
-  handleSearch(queryString) {
-    const helper = algoliasearchHelper(client, index, {
-      hitsPerPage: 5000
-    });
+  async handleSearch(queryString) {
+    const helper = algoliasearchHelper(client, index);
 
     console.log("handleSearch is running");
-
-    helper.setQuery(queryString).search();
 
     helper.on("result", content => {
       content.hits.sort((a, b) => {
@@ -55,15 +52,19 @@ class App extends Component {
         searchResults: content.hits,
         currentResults: content.hits.slice(0, 5),
         count: content.nbHits,
-        searchTime: content.processingTimeMS
+        searchTime: content.processingTimeMS,
+        currentCategory: ""
       });
     });
+    await helper
+      .setQueryParameter("hitsPerPage", 5000)
+      .setQuery(queryString)
+      .search();
   }
 
   loadFacetInfo() {
     const helper = algoliasearchHelper(client, index, {
-      facets: ["food_type"],
-      hitsPerPage: 100
+      facets: ["food_type"]
     });
 
     helper.on("result", content => {
@@ -73,18 +74,15 @@ class App extends Component {
         })
       });
     });
-    helper.search();
+    helper.setQueryParameter("hitsPerPage", 5000).search();
   }
 
   categoryClick(category) {
     const helper = algoliasearchHelper(client, index, {
-      facets: ["food_type"],
-      hitsPerPage: 5000
+      facets: ["food_type"]
     });
 
     helper.on("result", content => {
-      console.log("this is categoryClick content:", content);
-
       //attempt to sort content.hits;
       content.hits.sort((a, b) => {
         return Number(b.stars_count) - Number(a.stars_count);
@@ -94,16 +92,18 @@ class App extends Component {
         searchResults: content.hits,
         currentResults: content.hits.slice(0, 5),
         count: content.nbHits,
-        searchTime: content.processingTimeMS
+        searchTime: content.processingTimeMS,
+        currentCategory: category
       });
     });
-    helper.addFacetRefinement("food_type", category).search();
+    helper
+      .setQueryParameter("hitsPerPage", 5000)
+      .addFacetRefinement("food_type", category)
+      .search();
   }
 
   ratingQuery(value) {
-    const helper = algoliasearchHelper(client, index, {
-      hitsPerPage: 5000
-    });
+    const helper = algoliasearchHelper(client, index);
 
     helper.on("result", content => {
       //filter for value
@@ -116,6 +116,8 @@ class App extends Component {
         return Number(b.stars_count) - Number(a.stars_count);
       });
 
+      console.log("this is content.hits", content.hits);
+
       this.setState({
         searchResults: content.hits,
         currentResults: content.hits.slice(0, 5),
@@ -123,7 +125,9 @@ class App extends Component {
         searchTime: content.processingTimeMS
       });
     });
-    helper.search();
+
+    console.log("this state searchResults", this.state.searchResults);
+    helper.setQueryParameter("hitsPerPage", 5000).search();
   }
 
   shiftResults() {
@@ -140,22 +144,17 @@ class App extends Component {
   //filter based on reviews;
   ratingFilter(value) {
     const { searchResults } = this.state;
-    //if searchResults are empty
-    if (!searchResults.length) {
-      //search entire index;
-      this.ratingQuery(value);
-    } else {
-      //filter current searchResults;
-      const filteredResults = searchResults.filter(hit => {
-        return Number(hit.stars_count) >= value;
-      });
-      this.setState({
-        searchResults: filteredResults,
-        currentResults: filteredResults.slice(0, 5),
-        count: filteredResults.length
-      });
-    }
+    //filter current searchResults;
+    const filteredResults = searchResults.filter(hit => {
+      return Number(hit.stars_count) >= value;
+    });
+    this.setState({
+      searchResults: filteredResults,
+      currentResults: filteredResults.slice(0, 5),
+      count: filteredResults.length
+    });
   }
+  // }
 
   //payment filter;
   paymentFilter(type) {
@@ -165,8 +164,6 @@ class App extends Component {
       return hit.payment_options.indexOf(type) !== -1;
     });
 
-    console.log("this is filtered results", filteredResults);
-
     this.setState({
       searchResults: filteredResults,
       currentResults: filteredResults.slice(0, 5),
@@ -175,10 +172,9 @@ class App extends Component {
   }
 
   resetFilter() {
-    const { searchResults, query } = this.state;
-
-    this.loadFacetInfo();
-    if (searchResults.length) this.handleSearch(query);
+    const { query, currentCategory } = this.state;
+    if (query) this.handleSearch(query);
+    if (currentCategory) this.categoryClick(currentCategory);
   }
 
   render() {

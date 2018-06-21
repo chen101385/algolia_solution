@@ -10,11 +10,11 @@ const Sidebar = ({ categoryList, categoryClick, ratingFilter, paymentFilter, res
       <h3 className="side-label">Cuisine/Food Type</h3>
       <CategoryFilter categoryList={categoryList} categoryClick={categoryClick} resetFilter={resetFilter} />
     </div>
-    <div>
+    <div className="ratings">
       <h3 className="side-label"> Ratings (min)</h3>
       <Ratings ratingFilter={ratingFilter} resetFilter={resetFilter} />
     </div>
-    <div>
+    <div className="payment-options">
       <h3 className="side-label">Payment Options</h3>
       <PaymentFilter paymentFilter={paymentFilter} resetFilter={resetFilter} />
     </div>
