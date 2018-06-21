@@ -6,7 +6,7 @@ import ShowMore from "../ShowMore/ShowMore";
 const Listings = ({ items, count, searchTime, shiftResults }) => {
   const milliseconds = (searchTime / 1000).toFixed(3);
   return (
-    <div>
+    <div className="listing-container">
       <div className="listing-header">
         <span id="result-count">{count} results found </span>
         <span id="result-time"> in {milliseconds} seconds</span>
@@ -15,10 +15,12 @@ const Listings = ({ items, count, searchTime, shiftResults }) => {
         <div className="listing-entries">
           {items.map(item => <ItemListEntry item={item} key={item.objectID} />)}
         </div>
+        <div id="show-more">
         <ShowMore 
           count={count}
           shiftResults={shiftResults}
          />
+         </div>
       </div>
     </div>
   );

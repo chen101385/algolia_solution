@@ -47,13 +47,13 @@ class App extends Component {
         return Number(b.stars_count) - Number(a.stars_count);
       });
 
-      this.setState({
+    this.setState({
         query: queryString,
         searchResults: content.hits,
         currentResults: content.hits.slice(0, 5),
         count: content.nbHits,
         searchTime: content.processingTimeMS,
-        currentCategory: ""
+        currentCategory: '',
       });
     });
     await helper
@@ -131,13 +131,11 @@ class App extends Component {
   }
 
   shiftResults() {
-    //shift pointer by 5 to current results;
+    const {shiftPointer, searchResults} = this.state;
+    const newShiftPointer = shiftPointer + 5;
     this.setState({
-      currentResults: this.state.searchResults.slice(0, this.state.shiftPointer)
-    });
-    //increment shift pointer by 5;
-    this.setState({
-      shiftPointer: this.state.shiftPointer + 5
+      currentResults: this.state.searchResults.slice(0, newShiftPointer),
+      shiftPointer: newShiftPointer,
     });
   }
 

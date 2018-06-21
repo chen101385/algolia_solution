@@ -28,6 +28,10 @@
     padding-top: 12px;
 }
 
+.listing-container {
+    margin-left: 25px;
+}
+
 .listing {
     display: flex;
     flex-direction: row;
@@ -126,7 +130,11 @@ input {
     color: orange;
 }
 
-button#show-more {
+#show-more {
+    margin-top: 10px;
+}
+
+#show-more button {
     padding: .75rem 3rem;
     font-size: 18px;
     font-weight: 300;
