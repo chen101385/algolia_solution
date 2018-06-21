@@ -5,12 +5,14 @@ import Sidebar from "../Sidebar/Sidebar";
 
 import "./App.css";
 
-const { SEARCH_KEY } = require("../../../../API/API_KEY");
+const { SEARCH_KEY, API_KEY } = require("../../../../API/API_KEY");
 const algoliasearch = require("algoliasearch");
 const algoliasearchHelper = require("algoliasearch-helper");
+
 const applicationID = "TGMMPVICOC";
-const index = "restaurants";
-const client = algoliasearch(applicationID, SEARCH_KEY);
+const indexName = "restaurants";
+const client = algoliasearch(applicationID, API_KEY);
+const index = client.initIndex(indexName);
 
 class App extends Component {
   constructor(props) {
@@ -36,7 +38,24 @@ class App extends Component {
     this.resetFilter = this.resetFilter.bind(this);
     this.getGeoLocation = this.getGeoLocation.bind(this);
   }
+  
   componentWillMount() {
+    index.setSettings(
+      {
+        searchableAttributes: [
+          "name",
+          "food_type",
+          "city",
+          "area",
+          "neighborhood"
+        ]
+      },
+      (err, content) => {
+        if (err) console.log("index settings were not set:", err);
+        else console.log("index attributes set!:", content);
+      }
+    );
+
     this.getGeoLocation();
     this.loadFacetInfo();
     this.handleSearch();
@@ -59,11 +78,10 @@ class App extends Component {
   }
 
   handleSearch(queryString) {
-    const helper = algoliasearchHelper(client, index, {
+    const helper = algoliasearchHelper(client, indexName, {
       hitsPerPage: 5000
     });
     helper.on("result", content => {
-
       this.setState({
         query: queryString,
         searchResults: content.hits,
@@ -71,7 +89,7 @@ class App extends Component {
         count: content.nbHits,
         searchTime: content.processingTimeMS,
         currentCategory: null,
-        currentPayment: null,
+        currentPayment: null
       });
     });
 
@@ -93,7 +111,7 @@ class App extends Component {
   }
 
   loadFacetInfo() {
-    const helper = algoliasearchHelper(client, index, {
+    const helper = algoliasearchHelper(client, indexName, {
       facets: ["food_type"]
     });
 
@@ -108,9 +126,9 @@ class App extends Component {
   }
 
   categoryClick(category) {
-    const helper = algoliasearchHelper(client, index, {
+    const helper = algoliasearchHelper(client, indexName, {
       hitsPerPage: 5000,
-      facets: ["food_type"],
+      facets: ["food_type"]
     });
 
     helper.on("result", content => {
@@ -125,7 +143,7 @@ class App extends Component {
         count: content.nbHits,
         searchTime: content.processingTimeMS,
         currentCategory: category,
-        currentPayment: null,
+        currentPayment: null
       });
     });
 
@@ -144,7 +162,7 @@ class App extends Component {
   }
 
   ratingQuery(value) {
-    const helper = algoliasearchHelper(client, index);
+    const helper = algoliasearchHelper(client, indexName);
 
     helper.on("result", content => {
       //filter for value
@@ -204,7 +222,7 @@ class App extends Component {
       searchResults: filteredResults,
       currentResults: filteredResults.slice(0, 5),
       count: filteredResults.length,
-      currentPayment: type,
+      currentPayment: type
     });
   }
 
@@ -213,10 +231,10 @@ class App extends Component {
     //if query + any filters --> reset all filters, query only;
     if (query) this.handleSearch(query);
     //if current category + payment --> reset payment, category only;
-    else if (currentCategory && currentPayment) this.categoryClick(currentCategory);
+    else if (currentCategory && currentPayment)
+      this.categoryClick(currentCategory);
     //if only one of category, payment or ratings --> return to default list;
     else this.handleSearch();
- 
   }
 
   render() {

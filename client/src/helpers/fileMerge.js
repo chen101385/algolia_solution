@@ -31,5 +31,5 @@ const mergeJSON = (arr1, arr2) => {
 let mergedData = mergeJSON(restaurants_info, restaurants_list);
 
 module.exports = {
-    mergedData
+    mergedData,
 }
