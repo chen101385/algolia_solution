@@ -17,13 +17,15 @@ class App extends Component {
     super(props);
     this.state = {
       currentResults: [],
+      currentCategory: null,
+      currentPayment: null,
       searchResults: [],
       count: 0,
       searchTime: null,
       categories: [],
-      currentCategory: "",
       query: "",
-      shiftPointer: 5
+      shiftPointer: 5,
+      geoLocation: null
     };
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -32,33 +34,62 @@ class App extends Component {
     this.ratingFilter = this.ratingFilter.bind(this);
     this.paymentFilter = this.paymentFilter.bind(this);
     this.resetFilter = this.resetFilter.bind(this);
+    this.getGeoLocation = this.getGeoLocation.bind(this);
   }
   componentWillMount() {
-    this.loadFacetInfo();
     this.getGeoLocation();
+    this.loadFacetInfo();
+    this.handleSearch();
   }
 
-  async handleSearch(queryString) {
-    const helper = algoliasearchHelper(client, index);
-
-    helper.on("result", content => {
-      content.hits.sort((a, b) => {
-        return Number(b.stars_count) - Number(a.stars_count);
+  getGeoLocation() {
+    const success = Position => {
+      let { latitude, longitude } = Position.coords;
+      this.setState({ geoLocation: { lat: latitude, lng: longitude } }, () => {
+        console.log("geolocation:", this.state.geoLocation);
       });
+    };
 
-    this.setState({
+    const error = PositionError => {
+      console.log("Geolocation Error Code:", PositionError.code);
+      console.log("Geolocation Error Message:", PositionError.message);
+    };
+
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
+
+  handleSearch(queryString) {
+    const helper = algoliasearchHelper(client, index, {
+      hitsPerPage: 5000
+    });
+    helper.on("result", content => {
+
+      this.setState({
         query: queryString,
         searchResults: content.hits,
         currentResults: content.hits.slice(0, 5),
         count: content.nbHits,
         searchTime: content.processingTimeMS,
-        currentCategory: '',
+        currentCategory: null,
+        currentPayment: null,
       });
     });
-    await helper
-      .setQueryParameter("hitsPerPage", 5000)
-      .setQuery(queryString)
-      .search();
+
+    //aroundLatLngViaIP: true,
+    //aroundLatLng: `${lat}, ${lng}`
+
+    if (!this.state.geoLocation) {
+      helper
+        .setQueryParameter(`aroundLatLngViaIP`, true)
+        .setQuery(queryString)
+        .search();
+    } else {
+      const { lat, lng } = this.state.geoLocation;
+      helper
+        .setQueryParameter(`aroundLatLng`, `${lat}, ${lng}`)
+        .setQuery(queryString)
+        .search();
+    }
   }
 
   loadFacetInfo() {
@@ -78,27 +109,38 @@ class App extends Component {
 
   categoryClick(category) {
     const helper = algoliasearchHelper(client, index, {
-      facets: ["food_type"]
+      hitsPerPage: 5000,
+      facets: ["food_type"],
     });
 
     helper.on("result", content => {
-      //attempt to sort content.hits;
-      content.hits.sort((a, b) => {
-        return Number(b.stars_count) - Number(a.stars_count);
-      });
+      // //attempt to sort content.hits;
+      // content.hits.sort((a, b) => {
+      //   return Number(b.stars_count) - Number(a.stars_count);
+      // });
 
       this.setState({
         searchResults: content.hits,
         currentResults: content.hits.slice(0, 5),
         count: content.nbHits,
         searchTime: content.processingTimeMS,
-        currentCategory: category
+        currentCategory: category,
+        currentPayment: null,
       });
     });
-    helper
-      .setQueryParameter("hitsPerPage", 5000)
-      .addFacetRefinement("food_type", category)
-      .search();
+
+    if (!this.state.geoLocation) {
+      helper
+        .setQueryParameter(`aroundLatLngViaIP`, true)
+        .addFacetRefinement("food_type", category)
+        .search();
+    } else {
+      const { lat, lng } = this.state.geoLocation;
+      helper
+        .setQueryParameter(`aroundLatLng`, `${lat}, ${lng}`)
+        .addFacetRefinement("food_type", category)
+        .search();
+    }
   }
 
   ratingQuery(value) {
@@ -115,8 +157,6 @@ class App extends Component {
         return Number(b.stars_count) - Number(a.stars_count);
       });
 
-      console.log("this is content.hits", content.hits);
-
       this.setState({
         searchResults: content.hits,
         currentResults: content.hits.slice(0, 5),
@@ -125,16 +165,15 @@ class App extends Component {
       });
     });
 
-    console.log("this state searchResults", this.state.searchResults);
     helper.setQueryParameter("hitsPerPage", 5000).search();
   }
 
   shiftResults() {
-    const {shiftPointer, searchResults} = this.state;
+    const { shiftPointer, searchResults } = this.state;
     const newShiftPointer = shiftPointer + 5;
     this.setState({
       currentResults: this.state.searchResults.slice(0, newShiftPointer),
-      shiftPointer: newShiftPointer,
+      shiftPointer: newShiftPointer
     });
   }
 
@@ -164,14 +203,20 @@ class App extends Component {
     this.setState({
       searchResults: filteredResults,
       currentResults: filteredResults.slice(0, 5),
-      count: filteredResults.length
+      count: filteredResults.length,
+      currentPayment: type,
     });
   }
 
   resetFilter() {
-    const { query, currentCategory } = this.state;
+    const { query, currentCategory, currentPayment } = this.state;
+    //if query + any filters --> reset all filters, query only;
     if (query) this.handleSearch(query);
-    if (currentCategory) this.categoryClick(currentCategory);
+    //if current category + payment --> reset payment, category only;
+    else if (currentCategory && currentPayment) this.categoryClick(currentCategory);
+    //if only one of category, payment or ratings --> return to default list;
+    else this.handleSearch();
+ 
   }
 
   render() {
