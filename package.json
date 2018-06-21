@@ -5,7 +5,8 @@
   "description": "Solutions Engineer Take Home Assignment",
   "scripts": {
     "nodemon": "nodemon server/index.js",
-    "build": "webpack --mode development --watch"
+    "build": "webpack --mode development --watch",
+    "test": "jest"
   },
   "repository": {
     "type": "git",

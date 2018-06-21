@@ -38,6 +38,7 @@
 @media only screen and (max-width: 500px) {
     .search {
         padding-top: 1px;
+        position: sticky;
     }
 }
 

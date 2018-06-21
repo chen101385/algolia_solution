@@ -5,11 +5,8 @@ import starHalf from "./RatingStars/star-half.png";
 import starFull from "./RatingStars/stars-plain.png";
 
 const ListingEntry = ({ item }) => {
-  
   const stars = [];
-
   const starRating = rating => {
-    //3.3-3.7 = 3 & half;
     let ratingCount = rating;
     let count = 5;
 
@@ -54,16 +51,12 @@ const ListingEntry = ({ item }) => {
     }
   };
 
-  starRating(item.stars_count);
+  starRating(Number(item.stars_count));
 
   return (
     <div className="listing">
       <div className="listing-image">
-        <img
-          className="image"
-          src={item.image_url}
-          alt={item.name}
-        />
+        <img className="image" src={item.image_url} alt={item.name} />
       </div>
       <div className="listing-info">
         <p id="listing-name">{item.name}</p>
@@ -88,7 +81,7 @@ ListingEntry.propTypes = {
       PropTypes.array,
       PropTypes.number,
     ])
-  ).isRequired
+  ).isRequired,
 };
 
 export default ListingEntry;

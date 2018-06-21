@@ -6,12 +6,10 @@ it('renders without crashing', () => {
   const div = document.createElement('div');
   const items = [
     {
-      id: 1,
-      key: 'FILL_ME_IN',
+      objectID: '1',
     },
     {
-      id: 2,
-      key: 'FILL_ME_IN',
+      objectID: '2',
     },
   ];
   ReactDOM.render(<Listings items={items} />, div);
