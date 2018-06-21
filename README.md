@@ -1,7 +1,9 @@
 # Project Title
 Algolia Solutions Engineer take-home assignment.
 
-Project Description
+Project Description:
+
+This is a front-end application that mirrors a 'type-as-you-search' interface for OpenTable.
 
 ## Getting Started
 
@@ -30,7 +32,7 @@ The console should print out the environment variable you just exported.
 Initalize your server:
 
 ```
-npm start
+npm run nodemon
 ```
 
 ## Testing
