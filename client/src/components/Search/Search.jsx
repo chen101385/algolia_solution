@@ -1,40 +1,33 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 export default class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
+      value: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(e) {
-    this.setState({ value: e.target.value });
+    this.setState({ value: e.target.value }, () => {this.props.handleSearch(this.state.value)});
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.handleSearch(this.state.value);
-    this.setState({ value: '' });
+  clearInput() {
+    this.setState({ value: "" });
   }
 
   render() {
     let { value } = this.state;
     return (
-      <form className="Search" onSubmit={this.handleSubmit}>
+      <form>
         <input
           type="text"
-          placeholder="Search"
+          placeholder="Search for Restaurants by Name, Cuisine, Location"
           value={value}
-          onChange={this.handleChange}
-        />
-        <input
-          type="submit"
-          value="Go"
+          onChange={(e) => this.handleChange(e)}
         />
       </form>
     );
@@ -44,4 +37,3 @@ export default class Search extends Component {
 Search.propTypes = {
   handleSearch: PropTypes.func.isRequired,
 };
-
