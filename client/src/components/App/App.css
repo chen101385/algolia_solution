@@ -87,6 +87,7 @@
 
 .categories {
     padding-top: 40px;
+    padding-right: 30px;
     position: relative;
 }
 
@@ -128,6 +129,19 @@ input {
 .star-count {
     font-weight: bold;
     color: orange;
+}
+
+.category {
+    padding-bottom: 5px;
+}
+
+.category-count {
+    float: right;
+}
+
+.hover-category {
+    color: white;
+    background-color: rgb(126, 166, 226);
 }
 
 #show-more {

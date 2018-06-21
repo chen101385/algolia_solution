@@ -35,12 +35,11 @@ class App extends Component {
   }
   componentWillMount() {
     this.loadFacetInfo();
+    this.getGeoLocation();
   }
 
   async handleSearch(queryString) {
     const helper = algoliasearchHelper(client, index);
-
-    console.log("handleSearch is running");
 
     helper.on("result", content => {
       content.hits.sort((a, b) => {

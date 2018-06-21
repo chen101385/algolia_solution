@@ -5,6 +5,7 @@ import starHalf from "./RatingStars/star-half.png";
 import starFull from "./RatingStars/stars-plain.png";
 
 const ListingEntry = ({ item }) => {
+  
   const stars = [];
 
   const starRating = rating => {

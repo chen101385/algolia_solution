@@ -7,6 +7,7 @@ import star4 from "./Stars/4.png";
 import star5 from "./Stars/5.png";
 
 const Ratings = ({ ratingFilter, resetFilter }) => (
+  <div className="ratings">
     <ul>
       <li>
         <img
@@ -70,6 +71,7 @@ const Ratings = ({ ratingFilter, resetFilter }) => (
         </a>
       </li>
     </ul>
+  </div>
 );
 
 export default Ratings;
