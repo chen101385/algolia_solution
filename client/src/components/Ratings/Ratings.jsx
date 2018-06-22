@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import star0 from "./Stars/0.png";
 import star1 from "./Stars/1.png";
 import star2 from "./Stars/2.png";
@@ -73,5 +74,10 @@ const Ratings = ({ ratingFilter, resetFilter }) => (
     </ul>
   </div>
 );
+
+Ratings.propTypes = {
+  ratingFilter: PropTypes.func.isRequired,
+  resetFilter: PropTypes.func.isRequired
+};
 
 export default Ratings;

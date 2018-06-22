@@ -9,7 +9,9 @@ I'm new to search engines, and there are a lot of concepts I'm not educated on. 
 
 I'm also struggling with understanding what types of metrics would be useful to include in the "Custom Ranking."
 
-Cheers, George
+Cheers, 
+
+George
 
 
 
@@ -17,40 +19,51 @@ Cheers, George
 
 RESPONSE # 1:
 
-Hi George!
+Dear George,
 
-Don’t worry, Algolia has a search solution that fits every need, regardless of level of technical skill or experience. I would be happy to assist you in improving your understanding these two concepts.
+No need to worry! Algolia's search solution is tailored to practically every level of technical skill and experience. I would be more than happy to assist you in improving your understanding of these two core concepts.
+
 
 RECORDS
 
-So, at Algolia, when you upload your searchable data, we store your information in an index. This information is separated into individual records, which are JSON schema-less objects.  Each record contains one or more attributes that can be selected for searching, displaying, filtering or ranking your data.
+When you upload your searchable data to Algolia's platform, we store your information in an index. Within this index, your information is separated into individual records. Each record contains one or more attributes that can be selected for either searching, displaying, filtering or ranking your data.
+
 
 INDEXING
 
-Indexing is the act of importing your existing dataset into Algolia’s hosted search platform.  You can ‘index’ your data in the following ways.
+Indexing is the act of importing your existing dataset onto Algolia’s hosted search platform.  You can ‘index’ your data in the following ways:
 
-•	Through the API (recommended)
+•	Through our API (recommended)
 •	Algolia’s dashboard
 •	Through a Third-Party Platform
 
 Once you complete the indexing process, your ‘index’ will become fully accessible within Algolia’s search platform. 
 
+
 CUSTOM RANKINGS
 
-We designed the custom ranking option to allow users to input relevant business metrics to rank their search results more effectively.  Therefore, any business metric that is relevant to an end-user could be considered. (i.e. number of likes or reviews)
-Custom rankings behave the same way as the rest of the ranking criteria.  You can set either a numerical or Boolean value that represents the relative relevance of your records.  
+We designed the custom ranking option to allow users to input relevant business metrics to rank their search results more effectively.  Therefore, any business metric that is relevant to an end-user could potentially be considered. 
 
-i.e. for e-commerce, adding availability or popularity to ensure that in-stock and popular items are ranked highest.
+    i.e. Number of likes or reviews.
 
-In order for numerical custom rankings to function properly within our tie-breaking system, their level of precision should be calibrated in a manner that allows for ‘ties’ between records (precision reduction).
 
-    i.e. if a customer ranking metric is too ‘precise’, then the next custom metric will essentially be ignored.  
+Custom rankings behave the same way as the rest of our ranking criteria.  You can set either a numerical or Boolean value that represents the relative relevance of your records.  
 
-Therefore, precision reduction allows tie-breaking to be effectively leveraged. 
+    i.e. For e-commerce, adding availability or popularity to ensure that in-stock and popular items are ranked highest.
 
-    i.e. using only one decimal point, instead of two or more, creates more ‘ties’ where the next custom ranking criterion will be considered. 
 
-If you have any other questions that I can assist you with, please do not hesitate to reach out!
+In order for numerical custom rankings to function properly within our tie-breaking system, their level of precision must be calibrated in a manner that allows for ‘ties’ between competing records (precision reduction).
+
+    i.e. If a customer ranking metric is too ‘precise’, there will rarely be any 'ties' and the next custom metric will essentially be ignored.  
+
+
+Therefore, the process of precision reduction allows tie-breaking to be more effectively leveraged. 
+
+    i.e. Using only one decimal point, instead of two or more, creates more ‘ties’ that allow the next custom ranking criterion to be considered. 
+
+
+If you have any further questions that I can assist you with, please do not hesitate to reach out!
+
 
 Best,
 
@@ -68,7 +81,9 @@ Hello,
 
 Sorry to give you the kind of feedback that I know you do not want to hear, but I really hate the new dashboard design. Clearing and deleting indexes are now several clicks away. I am needing to use these features while iterating, so this is inconvenient.
 
-Regards, Matt
+Regards, 
+
+Matt
 
 
 
@@ -78,24 +93,25 @@ RESPONSE # 2:
 
 Dear Matt,
 
-I apologize for any frustrations that you may have experienced when using our dashboard. We have several alternative methods to edit, clear and delete indexes where you do not have to interact with the dashboard UI. For instance, one simple way to manage your indices that requires no ‘clicking’ is to leverage our API.
+I deeply apologize for any frustrations you may have experienced when using our dashboard. I would like to take this opportunity to point out a few alternative methods to edit, clear and delete indexes that do not involve interaction with the dashboard UI. For instance, one popular way of managing your indices that requires no ‘clicking’ is by leveraging our API.
 
 I provided a few relevant links:
 
 
-Ecosystem Overview – see: Indexing & Configuration for a list of ways to manage and synchronize your indices. 
+Ecosystem Overview – see: 'Indexing & Configuration' section for a list of ways to manage and synchronize your indices. 
 (https://www.algolia.com/doc/guides/getting-started/ecosystem-overview/)
 
 
-Indexing Overview – how to index via API or Third-Party Platform
+Indexing Overview – how to index via API or a Third-Party Platform.
 (https://www.algolia.com/doc/guides/indexing/indexing-overview/)
 
 
-Index Synchronization – how to update or delete records through the API
+Index Synchronization – how to update or delete records through the API.
 (https://www.algolia.com/doc/guides/indexing/synchronization/)
 
 
-Here at Algolia, we strive to continually iterate and optimize our product offerings to ensure the best possible experience for our users.  I will pass along your feedback to our product team so that they can make any necessary changes to improve the usability and design of our dashboard.     
+Here at Algolia, we strive to continually iterate and optimize our product offerings to ensure the best possible experience for our users.  I will pass along your feedback to our product team so that they can make any necessary changes to improve the usability and design of our dashboard.    
+
 
 Warmest Regards,
 
@@ -113,7 +129,9 @@ Hi,
 
 I'm looking to integrate Algolia in my website. Will this be a lot of development work for me? What's the high level process look like?
 
-Regards, Leo
+Regards, 
+
+Leo
 
 
 
@@ -123,30 +141,34 @@ RESPONSE #3:
 
 Dear Leo,
 
-Here at Algolia, we are obsessed with optimizing developer experience.  To that end, we provide development teams with customizable building blocks to create a fast and relevant search experience.  If your website is already built, our search solution can be easily implemented by writing a few lines of code and leveraging our collection of UI libraries.
+Here at Algolia, we are obsessed with optimizing our developer experience.  To that end, we provide development teams with customizable building blocks to quickly manifest a fast and relevant search experience.  If your website is already built, our search solution can be quickly implemented by writing a few lines of code and leveraging our collection of UI libraries.
 
 
-To begin, I would highly recommend reading our ‘getting started’ docs to get a better understanding of our product and integration process.
+To begin, I would highly recommend reading our ‘Getting Started’ docs to get a better understanding of our product and integration process.
 (https://www.algolia.com/doc/paths/getting-started-with-algolia/)
 
 
-For a summary of the high-level process of integrating our product, check out our Ecosystem Overview.
+For a high-level summary of our product integration process, check out our 'Ecosystem Overview.'
 (https://www.algolia.com/doc/guides/getting-started/ecosystem-overview/)
 
 
-For a high-level summary of our search flow process, check out our High-Level Concepts page.
+For a high-level summary of our search flow process, check out our 'High-Level Concepts' page.
 (https://community.algolia.com/algoliasearch-helper-js/concepts.html#high-level-concepts)
 
 
-To see all of the libraries that are available to help you integrate your search user interface, check out our Search UI Libraries page.
+To see a list of our available libraries to help you integrate your search interface, check out our Search UI Libraries page.
 (https://www.algolia.com/doc/guides/search-ui/search-libraries/)
 
 
-For a deeper-level of search behavior customization, check out our Algolia JS Helper utility.
+For achieving a deeper-level of search behavior customization, check out our Algolia JS Helper utility.
 (https://community.algolia.com/algoliasearch-helper-js/)
 
 
-Hope this helps!
+Please let me know if you have any further questions or concerns!
+
+
 Best,
+
 Christopher Chen
+
 Solutions Engineer @ Algolia 

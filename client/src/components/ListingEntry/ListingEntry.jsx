@@ -6,6 +6,8 @@ import starFull from "./RatingStars/stars-plain.png";
 
 const ListingEntry = ({ item }) => {
   const stars = [];
+
+  //function to produce star_rating output for each listing
   const starRating = rating => {
     let ratingCount = rating;
     let count = 5;
@@ -79,9 +81,9 @@ ListingEntry.propTypes = {
       PropTypes.string,
       PropTypes.object,
       PropTypes.array,
-      PropTypes.number,
+      PropTypes.number
     ])
-  ).isRequired,
+  ).isRequired
 };
 
 export default ListingEntry;

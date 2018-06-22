@@ -5,6 +5,7 @@ import Sidebar from "../Sidebar/Sidebar";
 
 import "./App.css";
 
+//switched from SEARCH_KEY to API_KEY, kept here for possible future swap
 const { SEARCH_KEY, API_KEY } = require("../../../../API/API_KEY");
 const algoliasearch = require("algoliasearch");
 const algoliasearchHelper = require("algoliasearch-helper");
@@ -23,7 +24,7 @@ class App extends Component {
       currentPayment: null,
       searchResults: [],
       count: 0,
-      searchTime: null,
+      searchTime: 0,
       categories: [],
       query: "",
       shiftPointer: 5,
@@ -38,8 +39,9 @@ class App extends Component {
     this.resetFilter = this.resetFilter.bind(this);
     this.getGeoLocation = this.getGeoLocation.bind(this);
   }
-  
+
   componentWillMount() {
+    //set up search attributes in order of importance
     index.setSettings(
       {
         searchableAttributes: [
@@ -61,6 +63,7 @@ class App extends Component {
     this.handleSearch();
   }
 
+  //attempt to establish geoLocation
   getGeoLocation() {
     const success = Position => {
       let { latitude, longitude } = Position.coords;
@@ -77,10 +80,10 @@ class App extends Component {
     navigator.geolocation.getCurrentPosition(success, error);
   }
 
+  //search handler function (if no query, then return all records)
   handleSearch(queryString) {
-    const helper = algoliasearchHelper(client, indexName, {
-      hitsPerPage: 5000
-    });
+    const helper = algoliasearchHelper(client, indexName);
+
     helper.on("result", content => {
       this.setState({
         query: queryString,
@@ -92,9 +95,6 @@ class App extends Component {
         currentPayment: null
       });
     });
-
-    //aroundLatLngViaIP: true,
-    //aroundLatLng: `${lat}, ${lng}`
 
     if (!this.state.geoLocation) {
       helper
@@ -110,6 +110,7 @@ class App extends Component {
     }
   }
 
+  //load Cuisine/Food Type category-list
   loadFacetInfo() {
     const helper = algoliasearchHelper(client, indexName, {
       facets: ["food_type"]
@@ -125,18 +126,14 @@ class App extends Component {
     helper.setQueryParameter("hitsPerPage", 5000).search();
   }
 
+  //handler for when user clicks a Cuisine/Food Type category on side-bar
   categoryClick(category) {
     const helper = algoliasearchHelper(client, indexName, {
-      hitsPerPage: 5000,
+      hitsPerPage: 1000,
       facets: ["food_type"]
     });
 
     helper.on("result", content => {
-      // //attempt to sort content.hits;
-      // content.hits.sort((a, b) => {
-      //   return Number(b.stars_count) - Number(a.stars_count);
-      // });
-
       this.setState({
         searchResults: content.hits,
         currentResults: content.hits.slice(0, 5),
@@ -161,56 +158,33 @@ class App extends Component {
     }
   }
 
-  ratingQuery(value) {
-    const helper = algoliasearchHelper(client, indexName);
-
-    helper.on("result", content => {
-      //filter for value
-      content.hits = content.hits.filter(hit => {
-        return Number(hit.stars_count) >= value;
-      });
-
-      //sort by rating
-      content.hits.sort((a, b) => {
-        return Number(b.stars_count) - Number(a.stars_count);
-      });
-
-      this.setState({
-        searchResults: content.hits,
-        currentResults: content.hits.slice(0, 5),
-        count: content.nbHits,
-        searchTime: content.processingTimeMS
-      });
-    });
-
-    helper.setQueryParameter("hitsPerPage", 5000).search();
-  }
-
+  //by default, shift first 5 results to currentResults, shift an additional 5 when "Show More" button is toggled
   shiftResults() {
     const { shiftPointer, searchResults } = this.state;
     const newShiftPointer = shiftPointer + 5;
     this.setState({
-      currentResults: this.state.searchResults.slice(0, newShiftPointer),
+      currentResults: searchResults.slice(0, newShiftPointer),
       shiftPointer: newShiftPointer
     });
   }
 
-  //filter based on reviews;
+  //filter CURRENT RESULTS based on review rating
   ratingFilter(value) {
     const { searchResults } = this.state;
-    //filter current searchResults;
+
+    //filter current searchResults
     const filteredResults = searchResults.filter(hit => {
       return Number(hit.stars_count) >= value;
     });
+
     this.setState({
       searchResults: filteredResults,
       currentResults: filteredResults.slice(0, 5),
       count: filteredResults.length
     });
   }
-  // }
 
-  //payment filter;
+  //filter based on payment type
   paymentFilter(type) {
     const { searchResults } = this.state;
 
@@ -226,6 +200,7 @@ class App extends Component {
     });
   }
 
+  //reset all filters
   resetFilter() {
     const { query, currentCategory, currentPayment } = this.state;
     //if query + any filters --> reset all filters, query only;
