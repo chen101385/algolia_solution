@@ -1,5 +1,4 @@
-# Project Title
-Algolia Solutions Engineer take-home assignment.
+# Algolia Solutions Engineer take-home assignment
 
 Project Description:
 
