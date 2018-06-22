@@ -23,12 +23,8 @@ const mergeJSON = (arr1, arr2) => {
     return result;
 }
 
-// Testing For Fidelity
-// console.log('index 10 info:', restaurants_info[10]);
-// console.log('index 10 list:', restaurants_list[10]);
-// console.log('merged array @ index 10', mergedArray[10]);
-
-let mergedData = mergeJSON(restaurants_info, restaurants_list);
+//merge two JSON datasets 
+const mergedData = mergeJSON(restaurants_info, restaurants_list);
 
 module.exports = {
     mergedData,

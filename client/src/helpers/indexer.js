@@ -1,9 +1,7 @@
-const {
-    mergedData,
-} = require('./fileMerge');
+const { mergedData } = require('./fileMerge');
 const algoliasearch = require('algoliasearch');
-const KEY = require('../../../API/API_KEY');
 
+const KEY = require('../../../API/API_KEY');
 const client = algoliasearch('TGMMPVICOC', KEY.API_KEY);
 const index = client.initIndex('restaurants');
 
