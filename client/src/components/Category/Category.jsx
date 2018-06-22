@@ -12,12 +12,14 @@ class Category extends Component {
     };
   }
 
+  //on mouse enter, toggle state
   onMouseEnter() {
     this.setState(prevState => ({
       hover: !prevState.hover
     }));
   }
 
+  //on mouse leave, toggle state
   onMouseLeave() {
     this.setState(prevState => ({
       hover: !prevState.hover
@@ -37,8 +39,8 @@ class Category extends Component {
         onMouseEnter={() => this.onMouseEnter()}
         onMouseLeave={() => this.onMouseLeave()}
       >
-          <span>{category.name}</span>
-          <span className="category-count">{category.count}</span>
+        <span>{category.name}</span>
+        <span className="category-count">{category.count}</span>
       </li>
     );
   }

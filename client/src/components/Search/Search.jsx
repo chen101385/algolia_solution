@@ -7,27 +7,30 @@ export default class Search extends Component {
     this.state = {
       value: ""
     };
-
-    this.handleChange = this.handleChange.bind(this);
   }
 
+  //'as-you-type' search functionality via onChange trigger for invoking handleSearch function
   handleChange(e) {
-    this.setState({ value: e.target.value }, () => {this.props.handleSearch(this.state.value)});
+    this.setState({ value: e.target.value }, () => {
+      this.props.handleSearch(this.state.value);
+    });
   }
 
-  clearInput() {
-    this.setState({ value: "" });
+  //prevent enter from submitting the form
+  onKeyPress(e) {
+    let key = e.which || e.keyCode;
+    if (key === 13) e.preventDefault();
   }
 
   render() {
     let { value } = this.state;
     return (
-      <form>
+      <form onKeyPress={e => this.onKeyPress(e)}>
         <input
           type="text"
           placeholder="Search for Restaurants by Name, Cuisine, Location"
           value={value}
-          onChange={(e) => this.handleChange(e)}
+          onChange={e => this.handleChange(e)}
         />
       </form>
     );
@@ -35,5 +38,5 @@ export default class Search extends Component {
 }
 
 Search.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired
 };

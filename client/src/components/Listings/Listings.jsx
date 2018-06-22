@@ -4,6 +4,7 @@ import ItemListEntry from "../ListingEntry/ListingEntry";
 import ShowMore from "../ShowMore/ShowMore";
 
 const Listings = ({ items, count, searchTime, shiftResults }) => {
+  //convert seconds to milliseconds
   const milliseconds = (searchTime / 1000).toFixed(3);
   return (
     <div className="listing-container">
@@ -16,14 +17,25 @@ const Listings = ({ items, count, searchTime, shiftResults }) => {
           {items.map(item => <ItemListEntry item={item} key={item.objectID} />)}
         </div>
         <div id="show-more">
-        <ShowMore 
-          count={count}
-          shiftResults={shiftResults}
-         />
-         </div>
+          <ShowMore count={count} shiftResults={shiftResults} />
+        </div>
       </div>
     </div>
   );
+};
+
+Listings.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+      PropTypes.array,
+      PropTypes.number
+    ])
+  ).isRequired,
+  count: PropTypes.number.isRequired,
+  searchTime: PropTypes.number.isRequired,
+  shiftResults: PropTypes.func.isRequired
 };
 
 export default Listings;

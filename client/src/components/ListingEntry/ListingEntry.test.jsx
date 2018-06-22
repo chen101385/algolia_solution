@@ -12,7 +12,7 @@ it("renders without crashing", () => {
     stars_count: "3.9",
     reviews_count: "186",
     price_range: "$30 and under",
-    image_url: "https://www.opentable.com/img/restimages/99943.jpg",
+    image_url: "https://www.opentable.com/img/restimages/99943.jpg"
   };
   ReactDOM.render(<ListingEntry item={item} />, div);
   ReactDOM.unmountComponentAtNode(div);

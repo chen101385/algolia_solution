@@ -23,7 +23,8 @@ const CategoryFilter = ({ categoryList, categoryClick, resetFilter }) => (
 
 CategoryFilter.propTypes = {
   categoryList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  categoryClick: PropTypes.func.isRequired
+  categoryClick: PropTypes.func.isRequired,
+  resetFilter: PropTypes.func.isRequired
 };
 
 export default CategoryFilter;

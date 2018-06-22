@@ -10,8 +10,7 @@ module.exports = {
         path: DIST_DIR,
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
                 use: {
@@ -26,9 +25,18 @@ module.exports = {
                 exclude: /node_modules/,
                 use: ['style-loader', 'css-loader'],
             },
-            { test: /\.png$/, use: 'file-loader' },
-            { test: /\.jpg$/, use: 'file-loader' },
-            { test: /\.svg$/, use: 'file-loader' },
+            {
+                test: /\.png$/,
+                use: 'file-loader'
+            },
+            {
+                test: /\.jpg$/,
+                use: 'file-loader'
+            },
+            {
+                test: /\.svg$/,
+                use: 'file-loader'
+            },
         ],
     },
     resolve: {
