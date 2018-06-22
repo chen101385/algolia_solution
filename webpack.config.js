@@ -1,7 +1,7 @@
 const path = require('path');
 
 const SRC_DIR = path.join(__dirname, '/client/src');
-const DIST_DIR = path.join(__dirname, '/client/build');
+const DIST_DIR = path.join(__dirname, '/');
 
 module.exports = {
     entry: ['@babel/polyfill', `${SRC_DIR}/index.jsx`],
